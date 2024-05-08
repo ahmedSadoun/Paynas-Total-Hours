@@ -3,7 +3,8 @@ let workingDaysList = [0, 1, 2, 3, 4]; // from su to th
 async function fetchData() {
   let constToken =
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjZlYzdkN2M2N2M0OGYyYzdiNWNlMDU4MWJiMzdlZTczMDdmMzFmMGY2ZjQ4NjNlMDI0ZTNkMWFlMGMxMjFjMzg4ZTE4MDBmNzllYzAyNTQwIn0.eyJhdWQiOiI3IiwianRpIjoiNmVjN2Q3YzY3YzQ4ZjJjN2I1Y2UwNTgxYmIzN2VlNzMwN2YzMWYwZjZmNDg2M2UwMjRlM2QxYWUwYzEyMWMzODhlMTgwMGY3OWVjMDI1NDAiLCJpYXQiOjE3MDk0NzEwNzQsIm5iZiI6MTcwOTQ3MTA3NCwiZXhwIjoxNzQxMDA3MDc0LCJzdWIiOiI1NTMxOCIsInNjb3BlcyI6W119.spZvuPksB9K5ZtxWRhxw13Gdm_GSXTD9whoc76RENX9qNkYDp7SKKEg_BHccSNgff6ubKf5qBUuXt2-ZcmwMirk5YxyGrTqhBBJFWNppCJqnkrLtvFekeZzjN6Bbg3Lp2M3w43XVwDFNEyo0g13ft1H6iwmXL6FaQ8TNAAmsjHJA1NjYd6XDHYhloiD33-P1rxJiYM9O8W7QWGs6tygoTRpOnRV89ITNMYbvRFj1d5RFxnU07O_r_75y4Mm96Tv6-Cgm24S08HskoXikGDkTHzpyewVrFqkYJTZHakaGoMnVnl4xnLr-AUHewHL521rStagw6wlLFMzqCCJ2CNEs7WdjKesrERR8JzTz-jFV4FAqISj6Tx-2IvzO5X1gB995r53GwMsoQP-FKNGlfjnzZCf_UVmW_5Q-uwMmRF9HDeXycwMFb2O_uWdmrphQBE5z-7Q3qW0UBTcjpQpUrkPbldWO4EstCJ_9JkkQHPZaVKeQbyv_NtHDcEK8YO6A9sLxl477WC8N52nfzNH2D3zrHKCccP4mRoSz06ZsldDJLRHriBigvueyEcVW1aD4OaaYq7VDVjHXcoGSe9W2UG4ZgnMiE_HPK1bdB3pMpGrnB4tWSuXWOyvC7JUDkcn5bb_rtqG-jB-qOSTloYOewug5I1UXwhpht1c-i46DV99qN0U";
-  let token = localStorage.getItem("paynasToken") || constToken;
+  let token = localStorage.getItem("paynasToken");
+  console.log("token ", token);
   let res = await fetch(
     "https://app.paynas.com:8443/api/attendance/report?page=1&profile=&month=&year=&day=&search=&view_type=&ngsw-bypass=true",
     {
@@ -40,7 +41,10 @@ function calculateTotalTime(bookings) {
   let totalHours = 0;
   let totalMinutes = 0;
   let thisWeekSundayIs = getCurrentWeekSunday();
-  bookings.forEach((booking) => {
+  if (bookings && bookings.length <= 0) {
+    return;
+  }
+  bookings?.forEach((booking) => {
     // Check if checkout is null
     const dayDate = new Date(`${booking.date}T${booking.checkin}`);
     if (dayDate >= thisWeekSundayIs) {
@@ -70,7 +74,7 @@ function calculateTotalTime(bookings) {
 }
 
 fetchData().then((res) => {
-  console.log(res.data);
+  // console.log(res.data);
   let result = calculateTotalTime(res.data);
   document.getElementById("totalHours").innerHTML =
     result.hours + ":" + result.minutes;
@@ -87,4 +91,43 @@ function getCurrentWeekSunday() {
   const currentSunday = new Date(currentDate);
   currentSunday.setDate(currentSunday.getDate() - daysToSubtract);
   return currentSunday;
+}
+
+function onLoginFunction() {
+  let form = document.getElementById("loginForm");
+  let username = form["email"].value;
+  let password = form["password"].value;
+  login({ email: username, password: password }).then((res) => {
+    localStorage.setItem("paynasToken", res);
+    window.location.href = `./index.html`;
+  });
+  // console.log(username, password);
+}
+
+async function login(body) {
+  let res = await fetch(
+    "https://app.paynas.com:8443/api/users/login?ngsw-bypass=true",
+    {
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: "Bearer",
+        "content-type": "application/json",
+        locale: "en",
+        platform: "browser",
+        "sec-ch-ua":
+          '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "user-type": "2",
+      },
+      referrer: "https://app.paynas.com:8443/auth/login",
+      referrerPolicy: "strict-origin-when-cross-origin",
+      body: body,
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+    }
+  );
+  console.log(token);
+  return res.token;
 }
