@@ -1,0 +1,11 @@
+{
+  "name": "Paynas weekly working hours",
+  "version": "1.0.0",
+  "description": "This is an extension to calc Paynas weekly working hours",
+  "manifest_version": 3,
+  "author": "Ahmed Saadou",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Weekly working hours"
+  }
+}
