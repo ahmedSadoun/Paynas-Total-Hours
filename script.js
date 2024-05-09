@@ -116,7 +116,10 @@ async function login(body) {
     body: raw,
   };
 
-  let res = await fetch("http://localhost:8000/paynas/login", requestOptions);
+  let res = await fetch(
+    "https://blue-green-crocodile-kilt.cyclic.app/paynas/login",
+    requestOptions
+  );
   let jsonRes = await res.json();
   // console.log(jsonRes);
   localStorage.setItem("paynasToken", jsonRes.token);
