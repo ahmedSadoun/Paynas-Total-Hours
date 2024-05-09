@@ -2,9 +2,9 @@ let workingDaysList = [0, 1, 2, 3, 4]; // from su to th
 
 async function fetchData() {
   let constToken =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjZlYzdkN2M2N2M0OGYyYzdiNWNlMDU4MWJiMzdlZTczMDdmMzFmMGY2ZjQ4NjNlMDI0ZTNkMWFlMGMxMjFjMzg4ZTE4MDBmNzllYzAyNTQwIn0.eyJhdWQiOiI3IiwianRpIjoiNmVjN2Q3YzY3YzQ4ZjJjN2I1Y2UwNTgxYmIzN2VlNzMwN2YzMWYwZjZmNDg2M2UwMjRlM2QxYWUwYzEyMWMzODhlMTgwMGY3OWVjMDI1NDAiLCJpYXQiOjE3MDk0NzEwNzQsIm5iZiI6MTcwOTQ3MTA3NCwiZXhwIjoxNzQxMDA3MDc0LCJzdWIiOiI1NTMxOCIsInNjb3BlcyI6W119.spZvuPksB9K5ZtxWRhxw13Gdm_GSXTD9whoc76RENX9qNkYDp7SKKEg_BHccSNgff6ubKf5qBUuXt2-ZcmwMirk5YxyGrTqhBBJFWNppCJqnkrLtvFekeZzjN6Bbg3Lp2M3w43XVwDFNEyo0g13ft1H6iwmXL6FaQ8TNAAmsjHJA1NjYd6XDHYhloiD33-P1rxJiYM9O8W7QWGs6tygoTRpOnRV89ITNMYbvRFj1d5RFxnU07O_r_75y4Mm96Tv6-Cgm24S08HskoXikGDkTHzpyewVrFqkYJTZHakaGoMnVnl4xnLr-AUHewHL521rStagw6wlLFMzqCCJ2CNEs7WdjKesrERR8JzTz-jFV4FAqISj6Tx-2IvzO5X1gB995r53GwMsoQP-FKNGlfjnzZCf_UVmW_5Q-uwMmRF9HDeXycwMFb2O_uWdmrphQBE5z-7Q3qW0UBTcjpQpUrkPbldWO4EstCJ_9JkkQHPZaVKeQbyv_NtHDcEK8YO6A9sLxl477WC8N52nfzNH2D3zrHKCccP4mRoSz06ZsldDJLRHriBigvueyEcVW1aD4OaaYq7VDVjHXcoGSe9W2UG4ZgnMiE_HPK1bdB3pMpGrnB4tWSuXWOyvC7JUDkcn5bb_rtqG-jB-qOSTloYOewug5I1UXwhpht1c-i46DV99qN0U";
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjViZDJmNjcyZmMyNjczZjZkM2Y2NDA5NmE0MGM1Yzg4ZDM5Y2M5YzdkYzU3OTRkMjBhOWM2YzA0ZmVmMTRlNGYyZDM0M2RiNTgzNGNhNmRhIn0.eyJhdWQiOiI3IiwianRpIjoiNWJkMmY2NzJmYzI2NzNmNmQzZjY0MDk2YTQwYzVjODhkMzljYzljN2RjNTc5NGQyMGE5YzZjMDRmZWYxNGU0ZjJkMzQzZGI1ODM0Y2E2ZGEiLCJpYXQiOjE3MTUxNzA4MTksIm5iZiI6MTcxNTE3MDgxOSwiZXhwIjoxNzQ2NzA2ODE5LCJzdWIiOiI1NTMxOCIsInNjb3BlcyI6W119.KzH0ymUz4lEIGSdCkjCtwzrDp8X1bl4dNqItsJEzD2JklRmVFVBnphULG_jd86XmQLc8Sk1RT3bP1sKcZ0smhpRPlaHHHjogXseymiUBUSCBp2LmAYv7iUzvqluvkGyrfOx2pEfCqxvkJR291hx1isLv22b0V2ZuKYpE1CLKJ4xzHVdR85k8CeOgZHeRvGWpXtax4Czqq15nXAY_rAYRZF0bicn4NWKzlcqd98PXOp2QBWuXMdONf-zOqwCSlqGKNC97-ZP4pD8jORBc0KLz-Y59ZTwyZHFa0-fa_0FiWnBZvWtmzhjImtrFWZKi9eeM2s2K3gEXomPItVQQtANc_rCNzBx13gLUGK67B2hEVBFCRmYj2_KPNzsx_UBqbSuqRYDEmrfcGKhPQpdt1QmAL600floWfBVfojs0xBcw0VO1ItOebWRmgfOtTg0Ese7gFVNDFKJ8rjvm9YP3tMz0fCkSNLtPS_s5JUKT4c-ynVL4sFiGdcWGeD49OQUmXF2dvAKRAiKsdpyo4qGBL6G-osY8VD_eFvzpVRkyKH8ESityOO3ge8RTOVlN-AzQSGhotZwpEnnW_7L0P2Myba7dWD7K3QTqXythIJ2qXxScpqXnOwIAqXlxePqhb3gd9YhuIHXwVuOTbxGSuWGsDJMuVGY_Cxik4NjsNfUNoz5-yU8";
   let token = localStorage.getItem("paynasToken");
-  console.log("token ", token);
+  // console.log("token ", token);
   let res = await fetch(
     "https://app.paynas.com:8443/api/attendance/report?page=1&profile=&month=&year=&day=&search=&view_type=&ngsw-bypass=true",
     {
@@ -97,37 +97,29 @@ function onLoginFunction() {
   let form = document.getElementById("loginForm");
   let username = form["email"].value;
   let password = form["password"].value;
-  login({ email: username, password: password }).then((res) => {
-    localStorage.setItem("paynasToken", res);
+  login({ email: username, password: password }).then((token) => {
     window.location.href = `./index.html`;
+    fetchData();
   });
   // console.log(username, password);
 }
 
 async function login(body) {
-  let res = await fetch(
-    "https://app.paynas.com:8443/api/users/login?ngsw-bypass=true",
-    {
-      headers: {
-        accept: "application/json, text/plain, */*",
-        authorization: "Bearer",
-        "content-type": "application/json",
-        locale: "en",
-        platform: "browser",
-        "sec-ch-ua":
-          '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"Windows"',
-        "user-type": "2",
-      },
-      referrer: "https://app.paynas.com:8443/auth/login",
-      referrerPolicy: "strict-origin-when-cross-origin",
-      body: body,
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-    }
-  );
-  console.log(token);
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify(body);
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+  };
+
+  let res = await fetch("http://localhost:8000/paynas/login", requestOptions);
+  let jsonRes = await res.json();
+  // console.log(jsonRes);
+  localStorage.setItem("paynasToken", jsonRes.token);
+
   return res.token;
 }
