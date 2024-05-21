@@ -8,20 +8,28 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+      integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paynas Weekly Working Hours</title>
+    <title>Paynas Audit</title>
   </head>
 
   <body>
     <div class="card" style="width: 18rem">
       <div class="card-body">
-        <h5 class="card-title">Paynas Weekly Working Hours</h5>
+        <h5 class="card-title">Paynas Audit</h5>
         <h6 class="card-subtitle mb-2 text-muted">
           From this week sunday to thursday
         </h6>
-        <h2 id="totalHours"></h2>
+        <h5 id="totalHours"></h5>
+        <h5 id="workingDaysCount"></h5>
       </div>
+      <button id="Refresh" class="btn btn-primary">Refresh</button>
     </div>
     <div class="card" style="width: 18rem">
       <div class="card-body">
@@ -51,9 +59,7 @@
             />
           </div>
         </form>
-        <button id="Submit"  class="btn btn-primary">
-          Submit
-        </button>
+        <button id="Submit" class="btn btn-primary">Login</button>
       </div>
     </div>
   </body>
