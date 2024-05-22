@@ -72,7 +72,23 @@ function calculateTotalTime(checkinDataList) {
     workingDaysCount: workingDaysCount,
   };
 }
-
+async function getTodayWorkingHours() {
+  let token = localStorage.getItem("paynasToken");
+  // console.log("token ", token);
+  let res = await fetch(
+    "https://app.paynas.com:8443/api/attendance/checkin-checkout?ngsw-bypass=true",
+    {
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: `Bearer ${token}`,
+      },
+      body: null,
+      method: "GET",
+    }
+  );
+  res = await res.json();
+  return res;
+}
 function getAndBuild() {
   fetchData().then((res) => {
     // console.log(res.data);
@@ -81,6 +97,11 @@ function getAndBuild() {
       "Total Working Hours: " + result.hours + ":" + result.minutes;
     document.getElementById("workingDaysCount").innerHTML =
       "Working Days Count: " + result.workingDaysCount;
+  });
+  getTodayWorkingHours().then((res) => {
+    let result = convertToMinuts(res.data.working_hours);
+    document.getElementById("todaysWorkingHours").innerHTML =
+      "Today's Working Hours: " + result.hours + ":" + result.minutes;
   });
 }
 
@@ -149,4 +170,33 @@ refresh.addEventListener("click", () => {
 
 window.addEventListener("load", async function () {
   getAndBuild();
+  let res = await getTodayWorkingHours();
+  let result = convertToMinuts(res.data.working_hours);
+  console.log(result);
 });
+
+function convertToMinuts(working_hours) {
+  const integerPart = Math.floor(working_hours);
+
+  const fractionalPart = working_hours - integerPart;
+  const minutes = (fractionalPart * 60) / 100;
+
+  return {
+    hours: integerPart.toString(),
+    minutes: getFirstTwoDecimalDigits(minutes),
+  };
+}
+
+function getFirstTwoDecimalDigits(number) {
+  const numberString = number.toString();
+
+  const decimalIndex = numberString.indexOf(".");
+
+  if (decimalIndex === -1) {
+    return "00";
+  }
+
+  const decimals = numberString.substring(decimalIndex + 1, decimalIndex + 3);
+
+  return decimals.padEnd(2, "0");
+}
