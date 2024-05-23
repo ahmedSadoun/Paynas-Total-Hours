@@ -140,7 +140,7 @@ async function login(body) {
   };
 
   let res = await fetch(
-    "https://blue-green-crocodile-kilt.cyclic.app/paynas/login",
+    "http://150.230.244.88:8000/paynas/login",
     requestOptions
   );
   let jsonRes = await res.json();
@@ -149,7 +149,12 @@ async function login(body) {
 
   return res.token;
 }
+const closeBTN = document.getElementById("close-btn");
 
+// Add a click event listener
+closeBTN.addEventListener("click", () => {
+  window.close();
+});
 // Get the button by its ID
 const myButton = document.getElementById("Submit");
 
