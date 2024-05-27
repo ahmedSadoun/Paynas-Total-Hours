@@ -99,12 +99,70 @@ function getAndBuild() {
       "Working Days Count: " + result.workingDaysCount;
   });
   getTodayWorkingHours().then((res) => {
+    // console.log(res);
     let result = convertToMinuts(res.data.working_hours);
     document.getElementById("todaysWorkingHours").innerHTML =
       "Today's Working Hours: " + result.hours + ":" + result.minutes;
+    // if(res.data.checkin && )
   });
 }
+function hideCheckInOrOutBTN(id) {
+  document.getElementById(id).hidden = true;
+}
+async function checkIn() {
+  let token = localStorage.getItem("paynasToken");
 
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const raw = JSON.stringify({
+    latitude: 29.9829891,
+    longitude: 31.3248932,
+    status: 2,
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+  };
+
+  let res = await fetch(
+    "https://app.paynas.com:8443/api/attendance/checkin?ngsw-bypass=true",
+    requestOptions
+  );
+  res = await res.json();
+  console.log(res);
+  return res;
+}
+async function checkOut() {
+  let token = localStorage.getItem("paynasToken");
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const raw = JSON.stringify({
+    latitude: 29.9829891,
+    longitude: 31.3248932,
+    status: 2,
+  });
+
+  const requestOptions = {
+    method: "PATCH",
+    headers: myHeaders,
+    body: raw,
+  };
+
+  let res = await fetch(
+    "https://app.paynas.com:8443/api/attendance/checkout?ngsw-bypass=true",
+    requestOptions
+  );
+  res = await res.json();
+  console.log(res);
+  return res;
+}
 function getCurrentWeekSunday() {
   var curr = new Date(); // get current date
   var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
@@ -169,15 +227,31 @@ const refresh = document.getElementById("Refresh");
 refresh.addEventListener("click", () => {
   document.getElementById("totalHours").innerHTML = "";
   document.getElementById("workingDaysCount").innerHTML = "";
+  document.getElementById("todaysWorkingHours").innerHTML = "";
 
   getAndBuild();
+});
+const checkInn = document.getElementById("check-in");
+
+// Add a click event listener
+checkInn.addEventListener("click", () => {
+  checkIn().then((res) => {
+    console.log("res: ", res);
+  });
+});
+const checkOutt = document.getElementById("check-out");
+
+// Add a click event listener
+checkOutt.addEventListener("click", () => {
+  checkOut().then((res) => {
+    console.log("res: ", res);
+  });
 });
 
 window.addEventListener("load", async function () {
   getAndBuild();
-  let res = await getTodayWorkingHours();
-  let result = convertToMinuts(res.data.working_hours);
-  console.log(result);
+
+  // console.log(result);
 });
 
 function convertToMinuts(working_hours) {
