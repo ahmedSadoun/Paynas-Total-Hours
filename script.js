@@ -1,22 +1,5 @@
 let workingDaysList = [0, 1, 2, 3, 4]; // from su to th
 
-async function fetchData() {
-  let token = localStorage.getItem("paynasToken");
-  // console.log("token ", token);
-  let res = await fetch(
-    "https://app.paynas.com:8443/api/attendance/report?page=1&profile=&month=&year=&day=&search=&view_type=&ngsw-bypass=true",
-    {
-      headers: {
-        accept: "application/json, text/plain, */*",
-        authorization: `Bearer ${token}`,
-      },
-      body: null,
-      method: "GET",
-    }
-  );
-  res = await res.json();
-  return res;
-}
 function compareDates(todaysDate) {
   function stripTime(date) {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -72,23 +55,7 @@ function calculateTotalTime(checkinDataList) {
     workingDaysCount: workingDaysCount,
   };
 }
-async function getTodayWorkingHours() {
-  let token = localStorage.getItem("paynasToken");
-  // console.log("token ", token);
-  let res = await fetch(
-    "https://app.paynas.com:8443/api/attendance/checkin-checkout?ngsw-bypass=true",
-    {
-      headers: {
-        accept: "application/json, text/plain, */*",
-        authorization: `Bearer ${token}`,
-      },
-      body: null,
-      method: "GET",
-    }
-  );
-  res = await res.json();
-  return res;
-}
+
 function getAndBuild() {
   fetchData().then((res) => {
     // console.log(res.data);
@@ -106,63 +73,10 @@ function getAndBuild() {
     // if(res.data.checkin && )
   });
 }
-function hideCheckInOrOutBTN(id) {
-  document.getElementById(id).hidden = true;
-}
-async function checkIn() {
-  let token = localStorage.getItem("paynasToken");
+// function hideCheckInOrOutBTN(id) {
+//   document.getElementById(id).hidden = true;
+// }
 
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", `Bearer ${token}`);
-
-  const raw = JSON.stringify({
-    latitude: 29.9829891,
-    longitude: 31.3248932,
-    status: 2,
-  });
-
-  const requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-  };
-
-  let res = await fetch(
-    "https://app.paynas.com:8443/api/attendance/checkin?ngsw-bypass=true",
-    requestOptions
-  );
-  res = await res.json();
-  console.log(res);
-  return res;
-}
-async function checkOut() {
-  let token = localStorage.getItem("paynasToken");
-
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", `Bearer ${token}`);
-
-  const raw = JSON.stringify({
-    latitude: 29.9829891,
-    longitude: 31.3248932,
-    status: 2,
-  });
-
-  const requestOptions = {
-    method: "PATCH",
-    headers: myHeaders,
-    body: raw,
-  };
-
-  let res = await fetch(
-    "https://app.paynas.com:8443/api/attendance/checkout?ngsw-bypass=true",
-    requestOptions
-  );
-  res = await res.json();
-  console.log(res);
-  return res;
-}
 function getCurrentWeekSunday() {
   var curr = new Date(); // get current date
   var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
@@ -185,28 +99,6 @@ function onLoginFunction() {
   // console.log(username, password);
 }
 
-async function login(body) {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  const raw = JSON.stringify(body);
-
-  const requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-  };
-
-  let res = await fetch(
-    "http://150.230.244.88:8000/paynas/login",
-    requestOptions
-  );
-  let jsonRes = await res.json();
-  // console.log(jsonRes);
-  localStorage.setItem("paynasToken", jsonRes.token);
-
-  return res.token;
-}
 const closeBTN = document.getElementById("close-btn");
 
 // Add a click event listener
@@ -235,7 +127,13 @@ const checkInn = document.getElementById("check-in");
 
 // Add a click event listener
 checkInn.addEventListener("click", () => {
-  checkIn().then((res) => {
+  let token = localStorage.getItem("paynasToken");
+  const raw = JSON.stringify({
+    latitude: 29.9829891,
+    longitude: 31.3248932,
+    status: 2,
+  });
+  checkIn(raw, token).then((res) => {
     console.log("res: ", res);
   });
 });
@@ -243,7 +141,15 @@ const checkOutt = document.getElementById("check-out");
 
 // Add a click event listener
 checkOutt.addEventListener("click", () => {
-  checkOut().then((res) => {
+  let token = localStorage.getItem("paynasToken");
+
+  const raw = JSON.stringify({
+    latitude: 29.9829891,
+    longitude: 31.3248932,
+    status: 2,
+  });
+
+  checkOut(raw, token).then((res) => {
     console.log("res: ", res);
   });
 });
