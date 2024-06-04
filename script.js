@@ -185,3 +185,14 @@ function getFirstTwoDecimalDigits(number) {
 
   return decimals.padEnd(2, "0");
 }
+
+// TEST
+// const toastTrigger = document.getElementById("liveToastBtn");
+// const toastLiveExample = document.getElementById("liveToast");
+// if (toastTrigger) {
+//   toastTrigger.addEventListener("click", () => {
+//     const toast = new bootstrap.Toast(toastLiveExample);
+
+//     toast.show();
+//   });
+// }
