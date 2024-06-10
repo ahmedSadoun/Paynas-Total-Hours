@@ -37,9 +37,9 @@ function calculateTotalTime(checkinDataList) {
 
           const hours = Math.floor(diffMinutes / 60);
           const minutes = diffMinutes % 60;
-
-          totalHours += hours;
-          totalMinutes += minutes;
+          // console.log(hours, " ", Math.abs(hours));
+          totalHours += Math.abs(hours);
+          totalMinutes += Math.abs(minutes);
         }
       }
     }
